@@ -1,0 +1,50 @@
+//Writen by: Adam W Telford
+const chalk = require('chalk');
+const clear = require('clear');
+const figlet = require('figlet');
+const inquirer = require('inquirer');
+var fs = require('fs-extra');
+const dh_homedir = require('os').homedir();
+clear();
+console.log(chalk.green(figlet.textSync('bXh', { horizontalLayout: 'default' })));
+console.log('');
+console.log(chalk.cyan.bold('Welcome to bXh!'));
+console.log('');
+inquirer
+  .prompt([
+  {
+    type: 'input',
+    name: 'b',
+    message: 'What is the base?',
+    default: function() {return 0;}
+  },
+  {
+    type: 'input',
+    name: 'h',
+    message: 'What is the height?',
+    default: function() {return 0;}
+  }
+  ])
+.then(answers => {
+  b = Number(answers.b);
+  h = Number(answers.h);
+  console.log("Base: " + b + " units");
+  console.log("Height: " + h + " units");
+  console.log("");
+  console.log(chalk.yellow("Triangle:"));
+  var hyp = b**2 + h**2;
+  hyp = hyp**(1/2);
+  console.log("Hypotenuse: " + hyp + " units");
+  var a = b * h;
+  a = a/2;
+  console.log("Area: " + a + " units^2");
+  var p = b + h + hyp;
+  console.log("Perimeter: " + p + " units");
+  console.log("");
+  console.log(chalk.yellow("Rectangle:"));
+  a = b * h;
+  console.log("Area: " + a + " units^2");
+  p = (2 * b)+(2 * h);
+  console.log("Perimeter: " + p + " units");
+  console.log("");
+});
