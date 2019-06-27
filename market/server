@@ -1,0 +1,49 @@
+//Writen by: Adam Telford
+const chalk = require('chalk');
+const clear = require('clear');
+const figlet = require('figlet');
+const inquirer = require('inquirer');
+var fs = require('fs-extra');
+var express = require('express');
+var app = express();
+const dh_homedir = require('os').homedir();
+var files = dh_homedir + '/Documents/tb_www/';
+if (!fs.existsSync(dh_homedir + '/Documents/')) {
+        fs.mkdirSync(dh_homedir + '/Documents/');
+}
+if (!fs.existsSync(files)) {
+        fs.mkdirSync(files);
+}
+clear();
+console.log(chalk.green(figlet.textSync('server', { horizontalLayout: 'default' })));
+console.log('');
+console.log(chalk.cyan.bold('Welcome to server!'));
+console.log('');
+inquirer
+  .prompt([
+  {
+    type: 'input',
+    name: 'port',
+    message: 'port # desired?',
+    default: function() {return '8080';}
+  }
+  ])
+.then(answers => {
+  app.use(express.urlencoded({extended: true}));
+  app.use("/", express.static(files));
+  // Change the 404 message modifing the middleware
+  app.use(function(req, res, next) {
+      res.status(404).send("Sorry, that route doesn't exist. Have a nice day :)");
+  });
+  var port = Number(answers.port);
+  // start the server in the port 3000 !
+  app.listen(port, function () {
+      console.log(chalk.yellow('Server listening on port ' + port + '.'));
+      console.log("");
+      console.log('You can view from this machine at: 127.0.0.1:' + port);
+      console.log("");
+      console.log("Or by typing in 'ifconfig' to find out you local IP");
+      console.log("");
+      console.log(chalk.green("To shut off server type 'ctrl c'."))
+  });
+});
