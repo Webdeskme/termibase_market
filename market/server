@@ -36,9 +36,9 @@ inquirer
       res.status(404).send("Sorry, that route doesn't exist. Have a nice day :)");
   });
   var port = Number(answers.port);
-  // start the server in the port 3000 !
   app.listen(port, function () {
       console.log(chalk.yellow('Server listening on port ' + port + '.'));
+      console.log(chalk.yellow('Displaying files from ' + files));
       console.log("");
       console.log('You can view from this machine at: 127.0.0.1:' + port);
       console.log("");
